@@ -1,6 +1,16 @@
-# Messagebus
+# MessageBus
 
-Messagebus is a mechanism to push messages from rails server to browser under development mode.
+MessageBus is a mechanism to push messages from rails server to browser under development mode.
+
+By default, MessageBus  will detect your rails application's file system changes and notify your browser
+the changes(using SSE). This will make you a happier develpment life since you do not need to refresh 
+browser manually \\^_^/. 
+
+MessageBus is a generic solution for message pushing from rails server(and rails console) to browser, you can push any 
+data to the browser. Since your data will pass through a DRb server, your arbitrary data must follow the requirements of 
+the DRb server.
+
+**You are recommmanded to use MessageBus ONLY in dev mode.**
 
 ## Installation
 
@@ -12,18 +22,14 @@ And then execute:
 
     $ bundle install
 
-Or install it yourself as:
-
-    $ gem install messagebus
+And the MessageBus is enabled in your rails app(for both the application and the console)
 
 ## Usage
 
-TODO: Write usage instructions here
+Once the Gem is required and then MessageBus is initalized with no problem, you can push message from you code as following:
+    
+    ActiveSupport::MessageBus::MessageServer.instance.send_message "hello world"
+    
+or push some data
 
-## Contributing
-
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+    ActiveSupport::MessageBus::MessageServer.instance.send_message {id: 34566, name: "david", content: "....."}
